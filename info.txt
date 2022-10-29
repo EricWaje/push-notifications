@@ -1,0 +1,13 @@
+service workers
+
+ACTUALIZACIONES PWA
+
+- cada vez que haya cambios -> manifest.json
+                          -> service-workers
+
+- como hacer para triggearlos --> control de versiones dentro del service-worker.js
+
+- Google Administración de Actualizaciones
+
+
+{"publicKey":"BBmskeabXEo97ulU6igaaZ3EGFF0O-LM33oRG4oySQRCLOLaA2_pLQSRSNAf0-SSM3-w643kfG3EuQPZpo_EDSk","privateKey":"CeK7sQgh23sG65FeAovzFdBxCKhhc5X7ZO7hts30Wt4"}
