@@ -1,70 +1,42 @@
 import React, { useState } from 'react';
 import './App.css';
-import { withServiceWorkerUpdater } from '@3m1/service-worker-updater';
+import axios from 'axios';
 
-const App = (props) => {
-    const { newServiceWorkerDetected, onLoadNewServiceWorkerAccept } = props;
+const App = () => {
+    const [data, setData] = useState({ title: '', message: '' });
 
-    const [text, setText] = useState('');
-    const [list, setList] = useState([]);
-
-    const handleAdd = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setList([...list, { text, id: new Date() }]);
-        setText('');
+        axios.post('http://localhost:8000/subscription', {
+            title: data.title,
+            message: data.message,
+        });
     };
 
-    const deleteItem = (id) => {
-        setList((oldValues) => oldValues.filter((val) => val.id !== id));
-    };
+    const handleChange = (e) =>
+        setData({ ...data, [e.target.name]: e.target.value });
 
     return (
-        <div className="App">
-            <header className="">
-                <h2>V11</h2>
-                <form action="" onSubmit={handleAdd}>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                    />
-                    <button type="submit">Agregar</button>
-                </form>
-                {list.map((item) => (
-                    <div
-                        key={item.id}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
-                            width: '40%',
-                            backgroundColor: 'red',
-                            borderRadius: '8px',
-                            margin: '10px',
-                        }}
-                    >
-                        <h3 style={{ color: 'black' }}>{item.text}</h3>
-                        <button onClick={() => deleteItem(item.id)}>
-                            Delete
-                        </button>
-                    </div>
-                ))}
-            </header>
-            {newServiceWorkerDetected && (
-                <footer style={{ backgroundColor: 'yellow' }}>
-                    <h2 style={{ color: 'black' }}>
-                        Nueva actualización, quieres actualizar?
-                    </h2>
-                    <button
-                        style={{ color: 'black' }}
-                        onClick={onLoadNewServiceWorkerAccept}
-                    >
-                        Actualizar!
-                    </button>
-                </footer>
-            )}
+        <div>
+            <form action="" onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Title..."
+                    value={data.title}
+                    onChange={handleChange}
+                    name="title"
+                />
+                <input
+                    type="text"
+                    placeholder="Message..."
+                    value={data.message}
+                    onChange={handleChange}
+                    name="message"
+                />
+                <button type="submit">Enviar</button>
+            </form>
         </div>
     );
 };
 
-export default withServiceWorkerUpdater(App);
+export default App;
